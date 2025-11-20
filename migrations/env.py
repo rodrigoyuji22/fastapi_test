@@ -4,7 +4,10 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
 from core.config import settings
+from pathlib import Path
+import sys
 
+sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
