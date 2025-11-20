@@ -2,8 +2,6 @@ from logging.config import fileConfig
 from src.models.user_model import table_registry
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from dotenv import load_dotenv
-import os
 from alembic import context
 from core.config import settings
 
