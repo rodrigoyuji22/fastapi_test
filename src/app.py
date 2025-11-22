@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from schemas.user_schema import UserSchema, UserResponse
+from schemas.user_schema import UserCreate, UserResponse
 
 app = FastAPI()
 
@@ -21,7 +21,7 @@ def hello_html():
     </html>"""
 
 @app.post('/create/user', status_code=201, response_model=UserResponse)
-def create_user(user: UserSchema):  # recebe como parâmetro um user que é do tipo UserSchema
+def create_user(user: UserCreate):  # recebe como parâmetro um user que é do tipo UserSchema
     return user
 
 # se o cliente não enviar um user com so tipos especificados no schema, vai retornar 422

@@ -14,3 +14,5 @@ class Settings(BaseSettings):
     )
 
 settings = Settings()
+
+# model_config é palavra reservada do BaseSettings, precisa passar dessa forma para funcionar
