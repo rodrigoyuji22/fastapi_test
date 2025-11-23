@@ -10,11 +10,11 @@ engine = create_engine(
 session = sessionmaker(autocommit=False, autoflush=False, bind=engine)  
 # SessionLocal serve para realizar transações ORM, diferente da engine que é apenas uma conexão que envia strings em formato de consulta para o banco 
 
-def get_db():
-    db = session()
+def get_session():
+    _session = session()
     try:
         yield db  # with automático, endpoint vai usar o objeto db e depois encerrar a sessão/conexão
     finally:
-        db.close()
+        _session.close()
     
 # esse metodo get_db() vai ser passado nos endpoints como dependência

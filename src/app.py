@@ -1,6 +1,9 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.responses import HTMLResponse
+from core.database import get_session
 from schemas.user_schema import UserCreate, UserResponse
+from services.user_service import UserService
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 
@@ -8,20 +11,8 @@ app = FastAPI()
 def Hello_World():
     return {'message': 'Hello World!'}
 
-@app.get('/hello', response_class=HTMLResponse)
-def hello_html():
-    return"""
-    <html>
-      <head>
-        <title> Nosso olá mundo!</title>
-      </head>
-      <body>
-        <h1> Olá Mundo </h1>
-      </body>
-    </html>"""
-
 @app.post('/create/user', status_code=201, response_model=UserResponse)
-def create_user(user: UserCreate):  # recebe como parâmetro um user que é do tipo UserSchema
-    return user
-
-# se o cliente não enviar um user com so tipos especificados no schema, vai retornar 422
+def create_user(user: UserCreate, session: Session=Depends(get_session)): 
+    service = UserService(session)
+    created_user = service._create_user(user)
+    return created_user
