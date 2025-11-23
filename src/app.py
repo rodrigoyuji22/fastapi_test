@@ -14,5 +14,5 @@ def Hello_World():
 @app.post('/create/user', status_code=201, response_model=UserResponse)
 def create_user(user: UserCreate, session: Session=Depends(get_session)): 
     service = UserService(session)
-    created_user = service._create_user(user)
+    created_user = service.create_user_service(user)
     return created_user

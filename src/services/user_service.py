@@ -9,7 +9,7 @@ class UserService():
     def __init__(self, session: Session):
         self.repo = UserRepository(session)
 
-    def _create_user(self, userDto: UserCreate):
+    def create_user_service(self, userDto: UserCreate):
         if userDto.password == userDto.confirm_password:
             hashed_password = hash_password(userDto.password)
             user = User(
