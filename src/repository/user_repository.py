@@ -1,5 +1,7 @@
+from fastapi import HTTPException
 from models.user_model import User
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
 
 class UserRepository():
@@ -11,3 +13,6 @@ class UserRepository():
         self.db.commit()
         self.db.refresh(user)
         return user
+    
+    def get_user(self, user_id: int):
+        return self.db.get(User, user_id)

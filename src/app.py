@@ -16,3 +16,12 @@ def create_user(user: UserCreate, session: Session=Depends(get_session)):
     service = UserService(session)
     created_user = service.create_user_service(user)
     return created_user
+
+@app.get('/user/{id}', status_code=200, response_model=UserResponse)
+def get_user_by_id(id: int, session: Session=Depends(get_session)):
+    service = UserService(session)
+    return service.get_user_by_id_service(id)
+
+@app.get('/users', status_code=200, response_model=UserResponse)
+def get_users():
+    pass

@@ -13,7 +13,7 @@ session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def get_session():
     _session = session()
     try:
-        yield db  # with automático, endpoint vai usar o objeto db e depois encerrar a sessão/conexão
+        yield _session  # with automático, endpoint vai usar o objeto db e depois encerrar a sessão/conexão
     finally:
         _session.close()
     
