@@ -17,12 +17,17 @@ def create_user(user: UserCreate, session: Session=Depends(get_session)):
     created_user = service.create_user_service(user)
     return created_user
 
-@app.get('/user/{id}', status_code=200, response_model=UserResponse)
-def get_user_by_id(id: int, session: Session=Depends(get_session)):
+@app.get('/user/{user_id}', status_code=200, response_model=UserResponse)
+def get_user_by_id(user_id: int, session: Session=Depends(get_session)):
     service = UserService(session)
-    return service.get_user_by_id_service(id)
+    return service.get_user_by_id_service(user_id)
 
 @app.get('/users', status_code=200, response_model=list[UserResponse])  # tava dando erro pois o reponse model deve ser uma lista de UserResponse, ao inves de UserReponse
 def get_users(session: Session=Depends(get_session)):
     service = UserService(session)
     return service.get_users()
+
+@app.delete('/delete/{user_id}', status_code=204)
+def delete_user(user_id: int, session: Session=Depends(get_session)):
+    service = UserService(session)
+    return service.delete_user(user_id)

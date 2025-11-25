@@ -30,3 +30,10 @@ class UserService():
     
     def get_users(self):
         return self.repo.get_users()
+
+    def delete_user(self, dtoId: int):
+        user = self.repo.get_user(dtoId)
+        if not user:
+            raise HTTPException(404, "Usuário não encontrado")
+        self.repo.delete_user(user)
+        

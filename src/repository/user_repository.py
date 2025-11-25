@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy import select
+from app import get_users
 from models.user_model import User
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -21,3 +22,7 @@ class UserRepository():
     def get_users(self):
         stmt = select(User)
         return self.db.scalars(stmt).all()
+    
+    def delete_user(self, user: User):
+        self.db.delete(user)
+        self.db.commit()
