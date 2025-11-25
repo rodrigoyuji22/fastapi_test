@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from sqlalchemy import select
 from models.user_model import User
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -16,3 +17,7 @@ class UserRepository():
     
     def get_user(self, user_id: int):
         return self.db.get(User, user_id)
+
+    def get_users(self):
+        stmt = select(User)
+        return self.db.scalars(stmt).all()

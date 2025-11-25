@@ -27,3 +27,6 @@ class UserService():
         if user:
             return user
         raise HTTPException(404, 'Usuário não encontrado')
+    
+    def get_users(self):
+        return self.repo.get_users()

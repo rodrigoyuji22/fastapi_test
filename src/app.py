@@ -22,6 +22,7 @@ def get_user_by_id(id: int, session: Session=Depends(get_session)):
     service = UserService(session)
     return service.get_user_by_id_service(id)
 
-@app.get('/users', status_code=200, response_model=UserResponse)
-def get_users():
-    pass
+@app.get('/users', status_code=200, response_model=list[UserResponse])  # tava dando erro pois o reponse model deve ser uma lista de UserResponse, ao inves de UserReponse
+def get_users(session: Session=Depends(get_session)):
+    service = UserService(session)
+    return service.get_users()
