@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI
 from fastapi.responses import HTMLResponse
 from core.database import get_session
-from schemas.user_schema import UserCreate, UserResponse
+from schemas.user_schema import UserCreate, UserResponse, UserUpdate
 from services.user_service import UserService
 from sqlalchemy.orm import Session
 
@@ -31,3 +31,8 @@ def get_users(session: Session=Depends(get_session)):
 def delete_user(user_id: int, session: Session=Depends(get_session)):
     service = UserService(session)
     return service.delete_user(user_id)
+
+@app.patch('/update/{user_id}', status_code=204)
+def update_user(user_id: int, user: UserUpdate, session: Session=Depends(get_session)):
+    service = UserService(session)
+    service.update_user(user_id, user)

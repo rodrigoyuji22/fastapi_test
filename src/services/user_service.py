@@ -1,7 +1,7 @@
 from core.security import hash_password, verify_password
 from models.user_model import User
 from repository.user_repository import UserRepository
-from schemas.user_schema import UserCreate
+from schemas.user_schema import UserCreate, UserUpdate
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
@@ -36,4 +36,15 @@ class UserService():
         if not user:
             raise HTTPException(404, "Usuário não encontrado")
         self.repo.delete_user(user)
+    
+    def update_user(self, dtoId: int, userDto: UserUpdate):
+        user = self.repo.get_user(dtoId)
+        if not user:
+            raise HTTPException(404, "Usuário não encontrado")
+        if userDto.username is not None:
+            user.username = userDto.username
+        if userDto.email is not None:
+            user.email = userDto.email
+        return self.repo.update_user(user)
+        
         
