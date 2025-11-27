@@ -1,12 +1,12 @@
-from fastapi import HTTPException
-from sqlalchemy import select, update
-from app import get_users
-from models.user_model import User
+from typing import Sequence
+
+from sqlalchemy import select
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
+
+from models.user_model import User
 
 
-class UserRepository():
+class UserRepository:
     def __init__(self, session: Session):
         self.db = session
 
@@ -15,14 +15,14 @@ class UserRepository():
         self.db.commit()
         self.db.refresh(user)
         return user
-    
-    def get_user(self, user_id: int) -> User:
-        return self.db.get(User, user_id)
 
-    def get_users(self) -> list[User]:
+    def get_user(self, user_id: int) -> User:
+        return self.db.get(User, user_id)  # pyright: ignore[reportReturnType]
+
+    def get_users(self) -> Sequence[User]:  # noqa: F811
         stmt = select(User)
         return self.db.scalars(stmt).all()
-    
+
     def delete_user(self, user: User):
         self.db.delete(user)
         self.db.commit()

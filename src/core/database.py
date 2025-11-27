@@ -1,14 +1,16 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from core.config import settings
 
 engine = create_engine(
     f"mysql+mysqlconnector://{settings.DB_USER}:{settings.DB_PWD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}",
-    pool_pre_ping=True
+    pool_pre_ping=True,
 )
 
-session = sessionmaker(autocommit=False, autoflush=False, bind=engine)  
-# SessionLocal serve para realizar transações ORM, diferente da engine que é apenas uma conexão que envia strings em formato de consulta para o banco 
+session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# SessionLocal serve para realizar transações ORM, diferente da engine que é apenas uma conexão que envia strings em formato de consulta para o banco
+
 
 def get_session():
     _session = session()
@@ -16,5 +18,5 @@ def get_session():
         yield _session  # with automático, endpoint vai usar o objeto db e depois encerrar a sessão/conexão
     finally:
         _session.close()
-    
+
 # esse metodo get_db() vai ser passado nos endpoints como dependência
