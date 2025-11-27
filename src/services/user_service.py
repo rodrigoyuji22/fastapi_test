@@ -3,7 +3,7 @@ from core.security import hash_password
 from models.user_model import User
 from repository.user_repository import UserRepository
 from schemas.user_schema import UserCreate, UserUpdate
-from src.core.exceptions import PasswordValidationError,
+from core.exceptions import PasswordValidationError, UserNotFoundError
 
 
 class UserService():

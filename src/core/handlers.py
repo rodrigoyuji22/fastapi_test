@@ -1,4 +1,4 @@
-from exceptions import PasswordValidationError, UserNotFoundError
+from core.exceptions import PasswordValidationError, UserNotFoundError
 from fastapi.responses import JSONResponse
 
 
