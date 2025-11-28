@@ -1,7 +1,6 @@
 from core.exceptions import PasswordValidationError, UserNotFoundError
 from fastapi.responses import JSONResponse
 
-
 def register_exceptions_handlers(app):
     @app.exception_handler(PasswordValidationError)
     def password_error_handler(_, exc):
