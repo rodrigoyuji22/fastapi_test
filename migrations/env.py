@@ -3,7 +3,7 @@ from src.models.user_model import table_registry
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
-from core.config import settings
+from src.core.config import settings
 from pathlib import Path
 import sys
 

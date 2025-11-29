@@ -1,7 +1,5 @@
 from datetime import datetime
-from typing import Optional
 from pydantic import BaseModel, EmailStr
-
 
 class UserBase(BaseModel):
     username: str
@@ -16,8 +14,8 @@ class UserResponse(UserBase):
     created_at: datetime
 
 class UserUpdate(BaseModel):
-    username: Optional[str] = None
-    email: Optional[EmailStr] = None
+    username: str | None
+    email: str | None
 
 
 # Schemas não devem conter regra de negócio, são apenas dtos para validação dos dados do payload
