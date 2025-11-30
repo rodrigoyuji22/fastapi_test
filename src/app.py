@@ -4,14 +4,16 @@ from core.database import get_session
 from core.handlers import register_exceptions_handlers
 from schemas.user_schema import UserCreate, UserResponse, UserUpdate
 from services.user_service import UserService
+import asyncio
 
 app = FastAPI()
 register_exceptions_handlers(app)
 
 
 @app.get("/", status_code=200)
-def Hello_World():
-    return {"message": "Hello World!"}
+async def Hello_World():
+    await asyncio.sleep(10)
+    return {"message": "Hello World"}
 
 @app.post("/create/user", status_code=201, response_model=UserResponse)
 def create_user(user: UserCreate, session: Session = Depends(get_session)):
