@@ -1,33 +1,34 @@
 from typing import Sequence
-
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.user_model import User
 
 
 class UserRepository:
-    def __init__(self, session: Session):
+    def __init__(self, session: AsyncSession):
         self.db = session
 
-    def add_user(self, user: User) -> User:
+    async def add_user(self, user: User) -> User:
         self.db.add(user)
-        self.db.commit()
-        self.db.refresh(user)
+        await self.db.commit()
+        await self.db.refresh(user)
         return user
 
-    def get_user(self, user_id: int) -> User:
-        return self.db.get(User, user_id)  # pyright: ignore[reportReturnType]
+    async def get_user(self, user_id: int) -> User | None:
+        return await self.db.get(User, user_id)
 
-    def get_users(self) -> Sequence[User]:  # noqa: F811
+    async def get_users(self) -> Sequence[User]:
         stmt = select(User)
-        return self.db.scalars(stmt).all()
+        result = await self.db.scalars(stmt)
+        return result.all()
+    # result é um objeto do tipo ScalarResult e .all é um método dessa classe
 
-    def delete_user(self, user: User):
-        self.db.delete(user)
-        self.db.commit()
+    async def delete_user(self, user: User):
+        self.db.delete(user) # pyright: ignore
+        await self.db.commit()
 
-    def update_user(self, user: User) -> User:
-        self.db.commit()
-        self.db.refresh(user)
+    async def update_user(self, user: User) -> User:
+        await self.db.commit()
+        await self.db.refresh(user)
         return user
