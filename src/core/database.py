@@ -1,22 +1,15 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 from core.config import settings
 
-engine = create_engine(
-    f"mysql+mysqlconnector://{settings.DB_USER}:{settings.DB_PWD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}",
+engine = create_async_engine(
+    f"mysql+aiomysql://{settings.DB_USER}:{settings.DB_PWD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}",
     pool_pre_ping=True,
 )
 
-session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-# SessionLocal serve para realizar transações ORM, diferente da engine que é apenas uma conexão que envia strings em formato de consulta para o banco
+async_session = async_sessionmaker(expire_on_commit=False, autocommit=False, autoflush=False, bind=engine)
 
 
-def get_session():
-    _session = session()
-    try:
-        yield _session  # with automático, endpoint vai usar o objeto db e depois encerrar a sessão/conexão
-    finally:
-        _session.close()
-
-# esse metodo get_db() vai ser passado nos endpoints como dependência
+async def get_async_session():
+    async with async_session() as session:
+        yield session
