@@ -1,5 +1,4 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from core.exceptions import PasswordValidationError, UserNotFoundError
 from core.security import hash_password
 from models.user_model import User
