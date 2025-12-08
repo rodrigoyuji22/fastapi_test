@@ -1,5 +1,5 @@
 from typing import Sequence
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from models.user_model import User
 
@@ -8,6 +8,13 @@ class UserRepository:
     def __init__(self, session: AsyncSession):
         self.db = session
 
+    async def validate_username_email(self, username: str, email: str):
+        stmt = select(User).where(or_(
+            User.username == username,
+            User.email == email
+        ))
+        return await self.db.scalar(stmt)
+    
     async def add_user(self, user: User) -> User:
         self.db.add(user)
         await self.db.commit()

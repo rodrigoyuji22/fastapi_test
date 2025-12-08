@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from core.exceptions import PasswordValidationError, UserNotFoundError
+from core.exceptions import PasswordValidationError, UserAlreadyExistsError, UserNotFoundError
 from core.security import hash_password
 from models.user_model import User
 from repository.user_repository import UserRepository
@@ -11,10 +11,11 @@ class UserService:
         self.repo = UserRepository(session)
 
     async def create_user_service(self, userDto: UserCreate):
+        result = await self.repo.validate_username_email(userDto.username, userDto.email)
+        if result:
+            raise UserAlreadyExistsError("Username ou Email ja cadastrado.")
         if userDto.password != userDto.confirm_password:
-            raise PasswordValidationError(
-                "Usuário não pode ser criado, senhas incosistentes"
-            )
+            raise PasswordValidationError("Usuário não pode ser criado, senhas incosistentes")
         hashed_password = hash_password(userDto.password)
         user = User(
             username=userDto.username, email=userDto.email, password=hashed_password

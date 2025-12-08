@@ -17,9 +17,7 @@ async def Hello_World():
 
 
 @app.post("/create/user", status_code=201, response_model=UserResponse)
-async def create_user(
-    user: UserCreate, session: AsyncSession = Depends(get_async_session)
-):
+async def create_user(user: UserCreate, session: AsyncSession = Depends(get_async_session)):
     service = UserService(session)
     return await service.create_user_service(user)
 
