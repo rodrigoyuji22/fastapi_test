@@ -10,3 +10,5 @@ class PasswordValidationError(Exception):
 class UserAlreadyExistsError(Exception):
     pass
     
+class InvalidCredentialsError(Exception):
+    pass
