@@ -1,6 +1,3 @@
-from threading import ExceptHookArgs
-
-
 class UserNotFoundError(Exception):
     pass
 
