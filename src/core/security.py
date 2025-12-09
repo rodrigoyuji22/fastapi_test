@@ -1,7 +1,11 @@
 from passlib.context import CryptContext
+from config import settings
 
 # instancia de cryptcontext com o algoritmo de hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(
+    schemes=[settings.CRYPT_SCHEME], 
+    deprecated=settings.CRYPT_DEPRECATED,
+)
 
 
 # metodo para hashear a senha

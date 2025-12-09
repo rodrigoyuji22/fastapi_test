@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     DB_PWD: str
     DB_PORT: int
     DB_NAME: str
+    CRYPT_SCHEME: str
+    CRYPT_DEPRECATED: str
 
     model_config = SettingsConfigDict(
         env_file=Path(__file__).resolve().parent.parent / ".env",
