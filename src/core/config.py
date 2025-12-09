@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     DB_NAME: str
     CRYPT_SCHEME: str
     CRYPT_DEPRECATED: str
+    TOKEN_EXPIRE_MINUTES: int
+    TOKEN_ENCRYPT_ALGORITHM: str
+    SECRET_KEY: str
 
     model_config = SettingsConfigDict(
         env_file=Path(__file__).resolve().parent.parent / ".env",

@@ -14,7 +14,11 @@ class UserRepository:
             User.email == email
         ))
         return await self.db.scalar(stmt)
-    
+        
+    async def get_user_id(self, username: str):
+        stmt = select(User.id).where(User.username == username)
+        return await self.db.scalar(stmt)
+        
     async def add_user(self, user: User) -> User:
         self.db.add(user)
         await self.db.commit()
