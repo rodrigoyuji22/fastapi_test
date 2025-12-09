@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from passlib.context import CryptContext
-from config import settings
+from core.config import settings
 from jwt import encode
 
 # instancia de cryptcontext com o algoritmo de hashing

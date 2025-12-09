@@ -23,7 +23,7 @@ class UserService:
         return await self.repo.add_user(user)
 
     async def get_user_by_id_service(self, dtoId: int):
-        user = await self.repo.get_user(dtoId)
+        user = await self.repo.get_user_by_id(dtoId)
         if user:
             return user
         raise UserNotFoundError("Usuário não encontrado")
@@ -32,13 +32,13 @@ class UserService:
         return await self.repo.get_users()
 
     async def delete_user(self, dtoId: int):
-        user = await self.repo.get_user(dtoId)
+        user = await self.repo.get_user_by_id(dtoId)
         if not user:
             raise UserNotFoundError("Usuário não encontrado")  # noqa: F821
         await self.repo.delete_user(user)
 
     async def update_user(self, dtoId: int, userDto: UserUpdate):
-        user = await self.repo.get_user(dtoId)
+        user = await self.repo.get_user_by_id(dtoId)
         if not user:
             raise UserNotFoundError("Usuário não encontrado")
         if userDto.username is not None:

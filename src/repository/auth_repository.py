@@ -7,7 +7,7 @@ class AuthRepository:
     def __init__(self, session: AsyncSession):
         self.db = session
     
-    async def get_hash_pwd(self, email: str):
+    async def get_user_auth(self, email: str):
         stmt = select(User).where(
             User.email == email
         )

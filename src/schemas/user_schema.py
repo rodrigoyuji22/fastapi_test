@@ -17,6 +17,9 @@ class UserUpdate(BaseModel):
     username: str | None
     email: str | None
 
+class UserAuthenticate(BaseModel):
+    email: EmailStr
+    password: str
 
-# Schemas não devem conter regra de negócio, são apenas dtos para validação dos dados do payload
-# autenticação, regras de negócio e lógica devem ficar em services e nos endpoints
+
+# Schemas são dtos para validação dos dados do payload

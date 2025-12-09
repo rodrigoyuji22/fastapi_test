@@ -25,7 +25,7 @@ class UserRepository:
         await self.db.refresh(user)
         return user
 
-    async def get_user(self, user_id: int) -> User | None:
+    async def get_user_by_id(self, user_id: int) -> User | None:
         return await self.db.get(User, user_id)
 
     async def get_users(self) -> Sequence[User]:

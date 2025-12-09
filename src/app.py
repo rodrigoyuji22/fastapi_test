@@ -1,9 +1,12 @@
 import asyncio
+
 from fastapi import Depends, FastAPI
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from core.database import get_async_session
 from core.handlers import register_exceptions_handlers
-from schemas.user_schema import UserCreate, UserResponse, UserUpdate
+from schemas.user_schema import UserAuthenticate, UserCreate, UserResponse, UserUpdate
+from services.auth_service import AuthService
 from services.user_service import UserService
 
 app = FastAPI()
@@ -17,7 +20,9 @@ async def Hello_World():
 
 
 @app.post("/create/user", status_code=201, response_model=UserResponse)
-async def create_user(user: UserCreate, session: AsyncSession = Depends(get_async_session)):
+async def create_user(
+    user: UserCreate, session: AsyncSession = Depends(get_async_session)
+):
     service = UserService(session)
     return await service.create_user_service(user)
 
@@ -50,3 +55,11 @@ async def update_user(
 ):
     service = UserService(session)
     await service.update_user(user_id, user)
+
+
+@app.post("/auth/login", status_code=201)
+async def authenticate_user(
+    userDto: UserAuthenticate, session: AsyncSession = Depends(get_async_session)
+):
+    service = AuthService(session)
+    return await service.authenticate_user(userDto.email, userDto.password)
