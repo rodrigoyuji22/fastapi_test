@@ -21,12 +21,12 @@ def verify_password(plain_password: str, hashed_password: str):
     return pwd_context.verify(plain_password, hashed_password)
 
 def create_access_token(claims: dict):
-    expire = datetime.now(tz=ZoneInfo('UTC')) + timedelta(minutes=settings.TOKEN_EXPIRE_MINUTES)
+    expires = datetime.now(tz=ZoneInfo('UTC')) + timedelta(minutes=settings.TOKEN_EXPIRE_MINUTES)
     payload = claims.copy()
     payload.update(
         {
             'iat': int(datetime.now(tz=ZoneInfo('UTC')).timestamp()),
-            'exp': int(expire.timestamp()),
+            'exp': int(expires.timestamp()),
         }
     )
     token = encode(payload, settings.SECRET_KEY, algorithm=settings.TOKEN_ENCRYPT_ALGORITHM)
