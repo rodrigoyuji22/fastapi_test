@@ -20,4 +20,8 @@ class AuthService:
         if not user_id:
             raise InvalidCredentialsError("Sorry! Invalid credentials")
         claims = {"sub": user_id}
-        return create_access_token(claims)
+        token = create_access_token(claims)
+        return {
+            'access_token': token,
+            'token_type': 'bearer'
+        }
