@@ -8,8 +8,3 @@ engine = create_async_engine(
 )
 
 async_session = async_sessionmaker(expire_on_commit=False, autocommit=False, autoflush=False, bind=engine)
-
-
-async def get_async_session():
-    async with async_session() as session:
-        yield session

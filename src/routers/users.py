@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.database import get_async_session
+from core.deps import auth_user_retrieve_id, get_async_session
 from schemas.user_schema import UserCreate, UserResponse, UserUpdate
 from services.user_service import UserService
 
@@ -36,9 +36,8 @@ async def delete_user(user_id: int, session: AsyncSession = Depends(get_async_se
     return await service.delete_user(user_id)
 
 
-@router.patch("/update/{user_id}", status_code=204)
+@router.patch("/update", status_code=204)
 async def update_user(
-    user_id: int, user: UserUpdate, session: AsyncSession = Depends(get_async_session)
-):
+    user: UserUpdate, user_id: int=Depends(auth_user_retrieve_id), session: AsyncSession = Depends(get_async_session)):
     service = UserService(session)
     await service.update_user(user_id, user)
