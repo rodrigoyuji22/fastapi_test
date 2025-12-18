@@ -7,10 +7,10 @@ from repository.auth_repository import AuthRepository
 
 class AuthService:
     def __init__(self, session: AsyncSession):
-        self.repo1 = AuthRepository(session)
+        self.repo = AuthRepository(session)
 
     async def authenticate_user(self, email: str, password: str):
-        result = await self.repo1.get_user_auth(email)
+        result = await self.repo.get_user_auth(email)
         if result is None:
             raise InvalidCredentialsError("Invalid credentials")
         pwd = result.password

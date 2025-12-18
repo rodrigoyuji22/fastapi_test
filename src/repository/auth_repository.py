@@ -11,7 +11,8 @@ class AuthRepository:
         stmt = select(User).where(
             User.email == email
         )
-        return await self.db.scalar(stmt) 
+        return await self.db.scalar(stmt)
+        # entrega o user inteiro
         
         
     
