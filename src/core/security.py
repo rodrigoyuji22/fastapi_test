@@ -49,3 +49,9 @@ def decode_access_token(token: str) -> dict:
         raise ExpiredSignatureError("Token expired")
     except InvalidTokenError:
         raise InvalidTokenError("Invalid token")
+
+def decode_for_refresh(token: str) -> dict:
+    return jwt.decode(
+        token, settings.SECRET_KEY, algorithms=[settings.TOKEN_ENCRYPT_ALGORITHM], options={"verify_exp": False}
+    )
+    

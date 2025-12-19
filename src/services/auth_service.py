@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from core.exceptions import InvalidCredentialsError
-from core.security import create_access_token, verify_password
+from core.security import create_access_token, decode_for_refresh, verify_password
 from repository.auth_repository import AuthRepository
 
 
@@ -22,6 +22,15 @@ class AuthService:
         claims = {"sub": user_id}
         token = create_access_token(claims)
         return {
-            'access_token': token,
-            'token_type': 'bearer'
+            "access_token": token,
+            "token_type": "bearer"
+        }
+    
+    async def refresh_user_token(self, token: str):
+        payload = decode_for_refresh(token=token)
+        claims = {"sub": payload["sub"]}
+        token = create_access_token(claims)
+        return {
+            "access_token": token,
+            "token_type": "bearer"
         }

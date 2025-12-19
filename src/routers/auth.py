@@ -12,3 +12,10 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def authenticate_user(userDto: UserAuthenticate, session: session_dep):
     service = AuthService(session)
     return await service.authenticate_user(userDto.email, userDto.password)
+
+@router.post("/refresh", status_code=201, response_model=Token)
+async def refresh_token(token: Token, session: session_dep):
+    payload = token.access_token
+    service = AuthService(session)
+    return await service.refresh_user_token(payload)
+    
